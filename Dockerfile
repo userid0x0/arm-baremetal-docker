@@ -20,7 +20,7 @@ RUN apt update \
 ADD https://raw.githubusercontent.com/creemama/run-non-root/v1.5.1/run-non-root.sh /usr/local/bin/run-non-root
 RUN chmod +rx /usr/local/bin/run-non-root
 
-ADD https://raw.githubusercontent.com/userid0x0/run-non-root-wrapper/master/run-non-root-wrapper.sh /usr/local/bin/docker-entrypoint.sh
+ADD https://raw.githubusercontent.com/userid0x0/run-non-root-wrapper/78825717dafb6f473bc4087312c0f851d5900e2d/run-non-root-wrapper.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +rx /usr/local/bin/docker-entrypoint.sh
 
 FROM docker.io/library/debian:bookworm-slim
