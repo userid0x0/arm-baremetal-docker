@@ -2,11 +2,14 @@
 Minimalistic arm-none-eabi-gcc environment
 
 # Usage
-## Podman
+## Linux
+### Podman
 ```bash
-podman run --rm --tty --interactive --volume $(realpath ~/):/app ghcr.io/userid0x0/arm-baremetal-docker:latest
+podman run --rm --tty --interactive \
+  --volume $(realpath ~/):/app
+  ghcr.io/userid0x0/arm-baremetal-docker:latest
 ```
-## Docker
+### Docker
 ```bash
 # simple
 docker run --rm --tty --interactive \
@@ -21,6 +24,22 @@ docker run --rm --tty --interactive \
   --env RUN_NON_ROOT_USER=$(id -u -n) \
   --env RUN_NON_ROOT_GID=$(id -g) \
   --env RUN_NON_ROOT_GROUP=$(id -g -n) \
+  ghcr.io/userid0x0/arm-baremetal-docker:latest
+```
+
+### Painless
+```bash
+#!/bin/bash
+
+if [ -z ${DOCKER} ]; then
+    command -v podman >/dev/null 2>&1 && DOCKER=podman
+fi
+if [ -z ${DOCKER} ]; then
+    command -v docker >/dev/null 2>&1 && DOCKER=docker
+fi
+
+${DOCKER} run --rm --tty --interactive \
+  --volume $(realpath ~/):/app \
   ghcr.io/userid0x0/arm-baremetal-docker:latest
 ```
 
