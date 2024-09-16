@@ -23,3 +23,39 @@ docker run --rm --tty --interactive \
   --env RUN_NON_ROOT_GROUP=$(id -g -n) \
   ghcr.io/userid0x0/arm-baremetal-docker:latest
 ```
+
+## Windows
+```bat
+@ECHO OFF
+SETLOCAL enableextensions
+%~d0
+
+WHERE podman.exe >nul 2>nul
+IF NOT DEFINED DOCKER (
+  IF %ERRORLEVEL% EQU 0 (SET DOCKER=podman)
+)
+
+WHERE docker.exe >nul 2>nul
+IF NOT DEFINED DOCKER (
+  IF %ERRORLEVEL% EQU 0 (SET DOCKER=docker)
+)
+
+IF "%DOCKER%" EQU "podman" (
+  FOR /f %%i IN ('podman machine info -f "{{ .Host.MachineState }}"') DO (
+    IF "%%i" EQU "Running" (SET PODMAN_STATE=Running)
+  )
+)
+IF "%DOCKER%" EQU "podman" (
+  IF "%PODMAN_STATE%" NEQ "Running" (
+    echo "Execute: podman machine start"
+    podman machine start
+  )
+)
+
+SET CURDIR=%~dp0
+
+%DOCKER% run --rm --tty --interactive ^
+  --volume %CURDIR%:/app ^
+  --env RUN_NON_ROOT_STATDIR=/app ^
+  ghcr.io/userid0x0/arm-baremetal-docker:latest
+```
