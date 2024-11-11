@@ -40,6 +40,7 @@ fi
 
 ${DOCKER} run --rm --tty --interactive \
   --volume $(realpath ~/):/app \
+  --env RUN_NON_ROOT_STATDIR=/app \
   ghcr.io/userid0x0/arm-baremetal-docker:latest
 ```
 
