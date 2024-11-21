@@ -6,7 +6,7 @@ Minimalistic arm-none-eabi-gcc environment
 ### Podman
 ```bash
 podman run --rm --tty --interactive \
-  --volume $(realpath ~/):/app
+  --volume $(realpath ~/):/app \
   ghcr.io/userid0x0/arm-baremetal-docker:latest
 ```
 ### Docker
